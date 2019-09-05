@@ -1,0 +1,75 @@
+.root{
+    -fx-base: #1e90ff;
+    -fx-background: #1e90ff;
+}
+
+#modrePozadi{
+    -fx-background-color:#166cbf;
+}
+
+/***** BUTTON *****/
+.button{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #166cbf;
+}
+
+.button:hover{
+    -fx-background-color: #ff4337;
+}
+
+/***** MENU *****/
+.menu{
+    -fx-font-weight	: bold;
+}
+
+.menu-bar{
+    -fx-background-color: #1e90ff;
+    -fx-border-style: dotted;
+}
+
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:focused,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-background-color: #ff4337;
+}
+
+.menu-bar > .container > .menu-button:hover > .label,
+.menu-bar > .container > .menu-button:focused > .label,
+.menu-bar > .container > .menu-button:showing  > .label {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bolder;
+}
+
+.menu-bar > .container > .menu-button {
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.menu-item .label {
+    -fx-text-fill: #000000;
+    -fx-background-color: #166cbf;
+}
+.menu-item .label:hover {
+    -fx-background-color: #1e90ff;
+}
+
+.menu-item:focused {
+     -fx-background-color: #ff4337;
+     -fx-background-radius: 0 0 10 10;
+}
+
+.menu-item:focused .label {
+     -fx-text-fill: #ffffff;
+     -fx-background-color: #ff4337;
+}
+
+.context-menu {
+    -fx-background-color: #166cbf;
+    -fx-background-radius: 0 0 20 20;
+    -fx-padding: 0;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+}
