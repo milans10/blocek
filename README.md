@@ -16,5 +16,7 @@ sqlite-jdbc-3.27.2.1.jar
 
 ## Verze programu
 
-* 1.0 beta
+* 1.00
     * Základní verze
+* 1.01
+    * Přidání tooltipu na kalendář

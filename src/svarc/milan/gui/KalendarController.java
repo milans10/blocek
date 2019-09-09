@@ -59,12 +59,9 @@ public class KalendarController {
                 Label label = (Label) gridPane.getChildren().get(0);
                 label.setText(String.valueOf(den++));
                 label.setStyle("-fx-background-color: #166cbf;");
-                label.setOnMouseEntered(mouseEvent -> {
-                    label.setStyle("-fx-background-color: #ff4337;");
-                });
-                label.setOnMouseExited(mouseEvent -> {
-                    label.setStyle("-fx-background-color: #166cbf;");
-                });
+                label.setOnMouseEntered(mouseEvent -> label.setStyle("-fx-background-color: #ff4337;"));
+                label.setOnMouseExited(mouseEvent -> label.setStyle("-fx-background-color: #166cbf;"));
+                label.setTooltip(new Tooltip(">> Kliknětě pro zadání úkolu pro den: " + label.getText() + "." + dneska.getMonthValue() + "." + dneska.getYear() + " <<"));
 
                 VBox vBox = new VBox();
 
@@ -86,6 +83,9 @@ public class KalendarController {
                             if (ukolLabel.getText().isEmpty()) {
                                 vBox.getChildren().remove(ukolLabel);
                             }
+                        });
+                        ukolLabel.setOnMouseEntered(mouseEvent -> {
+                            ukolLabel.setTooltip(new Tooltip(ukolLabel.getText() + "\n >> Klikněte pro editaci <<"));
                         });
                         vBox.getChildren().add(ukolLabel);
                     }
@@ -152,7 +152,8 @@ public class KalendarController {
 
     /**
      * Slouží k zobrazení zadávacího dialogu.
-     * @param vBox prostor pro vybraný den v měsíci do kterého vkládáme Úkol(položku)
+     *
+     * @param vBox     prostor pro vybraný den v měsíci do kterého vkládáme Úkol(položku)
      * @param tentoden číslo dne v měsíci do kterého přidáváme poznámku
      */
     private void zadavacíDialog(VBox vBox, int tentoden) {
@@ -205,6 +206,9 @@ public class KalendarController {
                     vBox.getChildren().remove(ukolLabel);
                 }
             });
+            ukolLabel.setOnMouseEntered(mouseEvent -> {
+                ukolLabel.setTooltip(new Tooltip(ukolLabel.getText() + "\n >> Klikněte pro editaci <<"));
+            });
             databaze.vlozUkolDoDatabaze(ukolLabel);
             vBox.getChildren().add(ukolLabel);
 
@@ -214,6 +218,7 @@ public class KalendarController {
 
     /**
      * Slouží k úpravě nebo odstranění úkolu(položky).
+     *
      * @param ukolLabel Aktuální úkol(položka), kterou chceme upravit/odstranit
      */
     private void ukazPoznamkaDialog(UkolLabel ukolLabel) {
