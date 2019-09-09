@@ -7,6 +7,10 @@
     -fx-background-color:#166cbf;
 }
 
+#preskrtnuty .text{
+    -fx-strikethrough: true;
+}
+
 /***** BUTTON *****/
 .button{
     -fx-text-fill: #ffffff;

@@ -20,3 +20,4 @@ sqlite-jdbc-3.27.2.1.jar
     * Základní verze
 * 1.01
     * Přidání tooltipu na kalendář
+    * Přidána možnost splnit úkol(Splněný úkol je přeškrtnut v kalendáři), i možnost udělat úkol znovu splnitelným

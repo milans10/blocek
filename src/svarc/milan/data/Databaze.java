@@ -13,28 +13,33 @@ import java.sql.*;
 public class Databaze {
 
     private static final String JMENO_DB = "kalendar.db";
-    private static final String CESTA = "jdbc:sqlite:"+ System.getProperty("user.dir")+File.separator;
+    private static final String CESTA = "jdbc:sqlite:" + System.getProperty("user.dir") + File.separator;
 
     private final static String TABULKA_JMENO = "kalendar_data";
     private final static String SLOUPEC_PREDMET = "predmet";
     private final static String SLOUPEC_POZNAMKA = "poznamka";
     private final static String SLOUPEC_DATUM = "datum";
+    private final static String SLOUPEC_SPLNENO = "splneno";
 
     /* SQlite dotazy*/
     private static final String VYTVOR_TABULKU_KALENDAR = "CREATE TABLE IF NOT EXISTS " + TABULKA_JMENO + " (" +
             SLOUPEC_PREDMET + " TEXT," +
             SLOUPEC_POZNAMKA + " TEXT," +
-            SLOUPEC_DATUM + " TEXT);";
+            SLOUPEC_DATUM + " TEXT," +
+            SLOUPEC_SPLNENO + " INTEGER"
+            + ");";
     private static final String NACTI_TABULKU_KALENDAR = "SELECT " +
             SLOUPEC_PREDMET + ", " +
             SLOUPEC_POZNAMKA + ", " +
-            SLOUPEC_DATUM + " FROM " + TABULKA_JMENO;
+            SLOUPEC_DATUM + ", " +
+            SLOUPEC_SPLNENO
+            + " FROM " + TABULKA_JMENO;
     private static final String VLOZIT_UKOL = "INSERT INTO " + TABULKA_JMENO +
-            '(' + SLOUPEC_PREDMET + ", " + SLOUPEC_POZNAMKA + ", " + SLOUPEC_DATUM +
-            ") VALUES(?, ?, ?)";
+            '(' + SLOUPEC_PREDMET + ", " + SLOUPEC_POZNAMKA + ", " + SLOUPEC_DATUM + ", " + SLOUPEC_SPLNENO +
+            ") VALUES(?, ?, ?, ?)";
     private static final String VYMAZAT_POLOZKU = "DELETE FROM " + TABULKA_JMENO
             + " WHERE rowid =(SELECT MIN(rowid) FROM " + TABULKA_JMENO
-            + " WHERE " + SLOUPEC_PREDMET + " = ? AND " + SLOUPEC_POZNAMKA + " = ? AND " + SLOUPEC_DATUM + " = ?)";
+            + " WHERE " + SLOUPEC_PREDMET + " = ? AND " + SLOUPEC_POZNAMKA + " = ? AND " + SLOUPEC_DATUM + " = ? AND " + SLOUPEC_SPLNENO + " = ?)";
 
 
     private static Databaze kalendar = new Databaze();
@@ -81,7 +86,7 @@ public class Databaze {
 
             // Naplní dataKalendare daty z databáze
             while (rs.next()) {
-                dataKalendare.add(new UkolLabel(rs.getString(SLOUPEC_PREDMET), rs.getString(SLOUPEC_POZNAMKA), rs.getString(SLOUPEC_DATUM)) {
+                dataKalendare.add(new UkolLabel(rs.getString(SLOUPEC_PREDMET), rs.getString(SLOUPEC_POZNAMKA), rs.getString(SLOUPEC_DATUM), rs.getBoolean(SLOUPEC_SPLNENO)) {
                 });
             }
 
@@ -102,12 +107,14 @@ public class Databaze {
         try (Connection conn = DriverManager.getConnection(CESTA + File.separator + JMENO_DB);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, dataUkolu.getNadpis());
+            pstmt.setString(1, dataUkolu.getPredmet());
             pstmt.setString(2, dataUkolu.getPoznamka());
             pstmt.setString(3, dataUkolu.getDatum());
+            pstmt.setBoolean(4, dataUkolu.isSplneno());
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
+            System.out.println("asi chyba");
             System.out.println(e.getMessage());
         }
         nactiKalendarData();
@@ -124,9 +131,10 @@ public class Databaze {
 
         try (Connection conn = DriverManager.getConnection(CESTA + File.separator + JMENO_DB);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, kalendarData.getNadpis());
+            pstmt.setString(1, kalendarData.getPredmet());
             pstmt.setString(2, kalendarData.getPoznamka());
-            pstmt.setString(3, kalendarData.getDatum().toString());
+            pstmt.setString(3, kalendarData.getDatum());
+            pstmt.setBoolean(4, kalendarData.isSplneno());
             int status;
             status = pstmt.executeUpdate();
             switch (status) {

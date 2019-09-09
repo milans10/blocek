@@ -7,9 +7,10 @@ package svarc.milan.data;
 import javafx.scene.control.Label;
 
 public class UkolLabel extends Label {
-    private String nadpis;
+    private String predmet;
     private String poznamka;
     private String datum;
+    private boolean splneno;
 
     public String getDatum() {
         return datum;
@@ -19,20 +20,29 @@ public class UkolLabel extends Label {
         this.datum = datum;
     }
 
-    public UkolLabel(String nadpis, String poznamka, String datum) {
-        super(nadpis);
-        this.nadpis = nadpis;
+    public UkolLabel(String predmet, String poznamka, String datum) {
+        super(predmet);
+        this.predmet = predmet;
         this.poznamka = poznamka;
         this.datum = datum;
+        this.splneno = false;
     }
 
-    public String getNadpis() {
-        return nadpis;
+    public UkolLabel(String predmet, String poznamka, String datum, boolean splneno) {
+        super(predmet);
+        this.predmet = predmet;
+        this.poznamka = poznamka;
+        this.datum = datum;
+        this.splneno = splneno;
     }
 
-    public void setNadpis(String nadpis) {
-        this.nadpis = nadpis;
-        this.setText(nadpis);
+    public String getPredmet() {
+        return predmet;
+    }
+
+    public void setPredmet(String predmet) {
+        this.predmet = predmet;
+        this.setText(predmet);
     }
 
     public String getPoznamka() {
@@ -41,5 +51,13 @@ public class UkolLabel extends Label {
 
     public void setPoznamka(String poznamka) {
         this.poznamka = poznamka;
+    }
+
+    public boolean isSplneno() {
+        return splneno;
+    }
+
+    public void setSplneno(boolean splneno) {
+        this.splneno = splneno;
     }
 }

@@ -78,11 +78,15 @@ public class KalendarController {
                     if (ukolLabel.getDatum().equals((label.getText() + "." + dneska.getMonthValue() + "." + dneska.getYear()))) {
                         ukolLabel.setStyle("-fx-background-color: lightgreen;" +
                                 "-fx-max-width: " + 500 + ";");
+                        if (ukolLabel.isSplneno()) {
+                            ukolLabel.setId("preskrtnuty");
+                        }
                         ukolLabel.setOnMouseClicked(mouseEvent -> {
                             ukazPoznamkaDialog(ukolLabel);
                             if (ukolLabel.getText().isEmpty()) {
                                 vBox.getChildren().remove(ukolLabel);
                             }
+                            aktualizujVzhledKalendare();
                         });
                         ukolLabel.setOnMouseEntered(mouseEvent -> {
                             ukolLabel.setTooltip(new Tooltip(ukolLabel.getText() + "\n >> Klikněte pro editaci <<"));
@@ -228,11 +232,12 @@ public class KalendarController {
 
         ButtonType tlacitkoOKtyp = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         ButtonType tlacitkoOdstranit = new ButtonType("Odstranit");
-        dialog.getDialogPane().getButtonTypes().addAll(tlacitkoOKtyp, tlacitkoOdstranit, ButtonType.CANCEL);
+        ButtonType tlacitkoSplnit = new ButtonType("Splněno");
+        dialog.getDialogPane().getButtonTypes().addAll(tlacitkoOKtyp, tlacitkoSplnit, tlacitkoOdstranit, ButtonType.CANCEL);
 
         GridPane grid = new GridPane();
 
-        TextField predmet = new TextField(ukolLabel.getNadpis());
+        TextField predmet = new TextField(ukolLabel.getPredmet());
         predmet.setPromptText("Zadejte předmět");
         TextArea poznamka = new TextArea(ukolLabel.getPoznamka());
         poznamka.setPromptText("Zadejte bližší informace");
@@ -253,6 +258,13 @@ public class KalendarController {
                 databaze.vymazatUkol(ukolLabel);
                 ukolLabel.setText("");
             }
+            if (dialogButton == tlacitkoSplnit) {
+                databaze.vymazatUkol(ukolLabel);
+                ukolLabel.setPredmet(predmet.getText());
+                ukolLabel.setPoznamka(poznamka.getText());
+                ukolLabel.setSplneno(!ukolLabel.isSplneno());
+                databaze.vlozUkolDoDatabaze(ukolLabel);
+            }
             return null;
         });
 
@@ -260,7 +272,7 @@ public class KalendarController {
 
         result.ifPresent(predmetPoznamka -> {
             databaze.vymazatUkol(ukolLabel);
-            ukolLabel.setNadpis(predmet.getText());
+            ukolLabel.setPredmet(predmet.getText());
             ukolLabel.setPoznamka(poznamka.getText());
             databaze.vlozUkolDoDatabaze(ukolLabel);
         });
