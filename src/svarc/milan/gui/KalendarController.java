@@ -176,7 +176,7 @@ public class KalendarController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("O programu");
         alert.setHeaderText("Program Bloček");
-        alert.setContentText("Naprogramoval: Milan Švarc\nVerze: 1.0 beta");
+        alert.setContentText("Naprogramoval: Milan Švarc\nVerze: 1.01");
         alert.showAndWait();
     }
 
