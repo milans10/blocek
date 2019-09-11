@@ -266,6 +266,7 @@ public class KalendarController {
             File f = new File(System.getProperty("user.dir")+"\\src\\svarc\\milan\\vzhled.css");
             scene.getStylesheets().clear();
             scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+            stage.setTitle("Detail úkolu...");
             stage.showAndWait();
 
         } catch (IOException e) {
