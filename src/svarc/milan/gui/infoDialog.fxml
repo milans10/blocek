@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2019. Created by Milan Švarc
+  -->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<BorderPane minHeight="300.0" minWidth="400.0" xmlns="http://javafx.com/javafx/10.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="svarc.milan.gui.InfoDialogController">
+    <top>
+        <HBox alignment="TOP_RIGHT">
+            <BorderPane.margin>
+                <Insets right="10.0" top="10.0" left="10.0"/>
+            </BorderPane.margin>
+            <Button onAction="#odstranUkol" text="Odstranit"></Button>
+        </HBox>
+    </top>
+    <center>
+        <HBox minHeight="100" minWidth="100" spacing="5">
+            <BorderPane.margin>
+                <Insets right="10.0" top="10.0" left="10.0" bottom="10.0"/>
+            </BorderPane.margin>
+            <GridPane HBox.hgrow="ALWAYS">
+                <rowConstraints>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="10" maxHeight="35"></RowConstraints>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="50"></RowConstraints>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="10" maxHeight="35"></RowConstraints>
+                </rowConstraints>
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="20" ></ColumnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="50" percentWidth="80"></ColumnConstraints>
+                </columnConstraints>
+                <children>
+                    <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Předmět:"></Label>
+                    <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Poznámka:"></Label>
+                    <TextField fx:id="predmet" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                               promptText="Zadejte předmět"></TextField>
+                    <TextArea fx:id="poznamka" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                              promptText="Zadejte bližší informace"></TextArea>
+                    <ToggleButton fx:id="tbtnSplneno" GridPane.rowIndex="2" GridPane.columnIndex="1" onAction="#splneno"
+                                  text="Splněno" maxWidth="Infinity"></ToggleButton>
+                </children>
+            </GridPane>
+        </HBox>
+    </center>
+    <bottom>
+        <HBox alignment="BOTTOM_RIGHT" spacing="10" >
+            <BorderPane.margin>
+                <Insets right="10.0" left="10.0" bottom="5.0"/>
+            </BorderPane.margin>
+            <Button onAction="#ulozUkol" text="Uložit" prefWidth="90"/>
+            <Button onAction="#closeStage" text="Zrušit" prefWidth="60"/>
+        </HBox>
+    </bottom>
+</BorderPane>

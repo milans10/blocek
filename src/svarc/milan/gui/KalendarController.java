@@ -6,14 +6,21 @@ package svarc.milan.gui;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import svarc.milan.data.Databaze;
 import svarc.milan.data.UkolLabel;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -59,7 +66,14 @@ public class KalendarController {
                 Label label = (Label) gridPane.getChildren().get(0);
                 label.setText(String.valueOf(den++));
                 label.setStyle("-fx-background-color: #166cbf;");
-                label.setOnMouseEntered(mouseEvent -> label.setStyle("-fx-background-color: #ff4337;"));
+                label.setOnMouseEntered(mouseEvent -> label.setStyle("-fx-background-color: #ff4337;" +
+                        "-fx-border-color: linear-gradient(from 0% 0% to 100% 0%, black, barvaZvirazni 50%, black 100%, black);" +
+                        "-fx-border-style: solid inside;" +
+                        "-fx-border-radius: 5;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-border-insets: -2;" +
+                        "-fx-background-insets: 0;" +
+                        ""));
                 label.setOnMouseExited(mouseEvent -> label.setStyle("-fx-background-color: #166cbf;"));
                 label.setTooltip(new Tooltip(">> Kliknětě pro zadání úkolu pro den: " + label.getText() + "." + dneska.getMonthValue() + "." + dneska.getYear() + " <<"));
 
@@ -77,7 +91,7 @@ public class KalendarController {
                 for (UkolLabel ukolLabel : databaze.getDataKalendare()) {
                     if (ukolLabel.getDatum().equals((label.getText() + "." + dneska.getMonthValue() + "." + dneska.getYear()))) {
                         ukolLabel.setStyle("-fx-background-color: lightgreen;" +
-                                "-fx-max-width: " + 500 + ";");
+                                "-fx-max-width: 500;");
                         if (ukolLabel.isSplneno()) {
                             ukolLabel.setId("preskrtnuty");
                         }
@@ -90,7 +104,19 @@ public class KalendarController {
                         });
                         ukolLabel.setOnMouseEntered(mouseEvent -> {
                             ukolLabel.setTooltip(new Tooltip(ukolLabel.getText() + "\n >> Klikněte pro editaci <<"));
+                            ukolLabel.setStyle("-fx-background-color: lightgreen;" +
+                                    "-fx-max-width: 500;"+
+                                    "-fx-border-color: linear-gradient(from 0% 0% to 100% 0%, black, barvaZvirazni 50%, black 100%, black);" +
+                                    "-fx-border-style: solid inside;" +
+                                    "-fx-border-width: 1.5;" +
+                                    "-fx-background-insets: 0;");
                         });
+                        ukolLabel.setOnMouseExited(mouseEvent -> {
+                            ukolLabel.setStyle("-fx-background-color: lightgreen;" +
+                                    "-fx-max-width: 500;");
+                        });
+
+
                         vBox.getChildren().add(ukolLabel);
                     }
                 }
@@ -129,7 +155,7 @@ public class KalendarController {
     }
 
     private void pridejPoznamku(VBox vBox, int tentoden) {
-        zadavacíDialog(vBox, tentoden);
+        zadavaciDialog(vBox, tentoden);
     }
 
     public void predchoziMesic() {
@@ -160,7 +186,7 @@ public class KalendarController {
      * @param vBox     prostor pro vybraný den v měsíci do kterého vkládáme Úkol(položku)
      * @param tentoden číslo dne v měsíci do kterého přidáváme poznámku
      */
-    private void zadavacíDialog(VBox vBox, int tentoden) {
+    private void zadavaciDialog(VBox vBox, int tentoden) {
         String kteryDen = (tentoden) + "." + dneska.getMonthValue() + "." + dneska.getYear();
 
         Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -221,60 +247,30 @@ public class KalendarController {
     }
 
     /**
-     * Slouží k úpravě nebo odstranění úkolu(položky).
+     * Slouží k úpravě nebo odstranění úkolu(položky). Zobrazí dialogové okno, kde můžeme provádět změny.
      *
      * @param ukolLabel Aktuální úkol(položka), kterou chceme upravit/odstranit
      */
     private void ukazPoznamkaDialog(UkolLabel ukolLabel) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("Detail události...");
-        dialog.setHeaderText("");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("infoDialog.fxml"));
+        Parent parent = null;
+        try {
+            parent = parent = fxmlLoader.load();
+            InfoDialogController dialogController = fxmlLoader.getController();
+            dialogController.posliData(ukolLabel);
 
-        ButtonType tlacitkoOKtyp = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-        ButtonType tlacitkoOdstranit = new ButtonType("Odstranit");
-        ButtonType tlacitkoSplnit = new ButtonType("Splněno");
-        dialog.getDialogPane().getButtonTypes().addAll(tlacitkoOKtyp, tlacitkoSplnit, tlacitkoOdstranit, ButtonType.CANCEL);
+            Scene scene = new Scene(parent, 400, 600);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            File f = new File(System.getProperty("user.dir")+"\\src\\svarc\\milan\\vzhled.css");
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+            stage.showAndWait();
 
-        GridPane grid = new GridPane();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        TextField predmet = new TextField(ukolLabel.getPredmet());
-        predmet.setPromptText("Zadejte předmět");
-        TextArea poznamka = new TextArea(ukolLabel.getPoznamka());
-        poznamka.setPromptText("Zadejte bližší informace");
-
-        grid.add(new Label("Předmět:"), 0, 0);
-        grid.add(predmet, 1, 0);
-        grid.add(new Label("Poznámka:"), 0, 1);
-        grid.add(poznamka, 1, 1);
-
-        dialog.getDialogPane().setContent(grid);
-        Platform.runLater(predmet::requestFocus);
-
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == tlacitkoOKtyp) {
-                return new Pair<>(predmet.getText(), poznamka.getText());
-            }
-            if (dialogButton == tlacitkoOdstranit) {
-                databaze.vymazatUkol(ukolLabel);
-                ukolLabel.setText("");
-            }
-            if (dialogButton == tlacitkoSplnit) {
-                databaze.vymazatUkol(ukolLabel);
-                ukolLabel.setPredmet(predmet.getText());
-                ukolLabel.setPoznamka(poznamka.getText());
-                ukolLabel.setSplneno(!ukolLabel.isSplneno());
-                databaze.vlozUkolDoDatabaze(ukolLabel);
-            }
-            return null;
-        });
-
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-
-        result.ifPresent(predmetPoznamka -> {
-            databaze.vymazatUkol(ukolLabel);
-            ukolLabel.setPredmet(predmet.getText());
-            ukolLabel.setPoznamka(poznamka.getText());
-            databaze.vlozUkolDoDatabaze(ukolLabel);
-        });
     }
 }
