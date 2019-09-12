@@ -4,11 +4,11 @@
   ~ Copyright (c) 2019. Created by Milan Švarc
   -->
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 <BorderPane minHeight="300.0" minWidth="400.0" xmlns="http://javafx.com/javafx/10.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="svarc.milan.gui.InfoDialogController" id="mujdialog">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="svarc.milan.gui.InfoDialogController" id="mujdialog" onKeyPressed="#klavesaZmacknuta">
     <top>
         <GridPane>
             <rowConstraints>

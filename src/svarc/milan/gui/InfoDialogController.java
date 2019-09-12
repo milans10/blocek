@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import svarc.milan.data.Databaze;
 import svarc.milan.data.UkolLabel;
@@ -84,7 +86,8 @@ public class InfoDialogController extends Dialog<UkolLabel> {
 
     /**
      * Slouží k přenosu dat do dialogu.
-     * @param nadpis libovolný text který se zobrazí v napisovém Labelu
+     *
+     * @param nadpis    libovolný text který se zobrazí v napisovém Labelu
      * @param ukolLabel
      */
     void posliData(String nadpis, UkolLabel ukolLabel) {
@@ -98,6 +101,15 @@ public class InfoDialogController extends Dialog<UkolLabel> {
 
     void vypniTlacitko(Boolean odstranitUkol) {
         btnOdstranUkol.setDisable(odstranitUkol);
+    }
+
+    @FXML
+    private void klavesaZmacknuta(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            Stage stage = (Stage) tfPredmet.getScene().getWindow();
+            stage.close();
+        }
+
     }
 
 }
