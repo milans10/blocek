@@ -7,24 +7,33 @@ package svarc.milan.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import svarc.milan.data.Databaze;
 import svarc.milan.data.UkolLabel;
 
 public class InfoDialogController extends Dialog<UkolLabel> {
-
     @FXML
-    private TextField predmet;
+    private Label lblNadpis;
     @FXML
-    private TextArea poznamka;
+    private TextField tfPredmet;
+    @FXML
+    private TextArea taPoznamka;
+    @FXML
+    private Button btnOdstranUkol;
+    @FXML
+    private Button btnUlozUkol;
     @FXML
     private ToggleButton tbtnSplneno;
+
     private Databaze databaze = Databaze.getKalendar();
     private UkolLabel docasnyUkolLabel;
+
+    public void initialize() {
+        btnUlozUkol.setDisable((tfPredmet.getText().length() < 1));
+        tfPredmet.textProperty().addListener((observable, oldValue, newValue) -> btnUlozUkol.setDisable((tfPredmet.getText().length() < 1)));
+        tfPredmet.requestFocus();
+    }
 
     /**
      * Uloží úkol do databáze a zavře dialogové okno.
@@ -34,7 +43,7 @@ public class InfoDialogController extends Dialog<UkolLabel> {
     @FXML
     void ulozUkol(ActionEvent event) {
         databaze.vymazatUkol(docasnyUkolLabel);
-        databaze.vlozUkolDoDatabaze(new UkolLabel(predmet.getText(), poznamka.getText(), docasnyUkolLabel.getDatum(), tbtnSplneno.isSelected()));
+        databaze.vlozUkolDoDatabaze(new UkolLabel(tfPredmet.getText(), taPoznamka.getText(), docasnyUkolLabel.getDatum(), tbtnSplneno.isSelected()));
         closeStage(event);
     }
 
@@ -73,12 +82,22 @@ public class InfoDialogController extends Dialog<UkolLabel> {
         }
     }
 
-    void posliData(UkolLabel ukolLabel) {
+    /**
+     * Slouží k přenosu dat do dialogu.
+     * @param nadpis libovolný text který se zobrazí v napisovém Labelu
+     * @param ukolLabel
+     */
+    void posliData(String nadpis, UkolLabel ukolLabel) {
+        lblNadpis.setText(nadpis);
         docasnyUkolLabel = ukolLabel;
-        predmet.setText(ukolLabel.getPredmet());
-        poznamka.setText(ukolLabel.getPoznamka());
+        tfPredmet.setText(ukolLabel.getPredmet());
+        taPoznamka.setText(ukolLabel.getPoznamka());
         tbtnSplneno.setSelected(ukolLabel.isSplneno());
         splneno();
+    }
+
+    void vypniTlacitko(Boolean odstranitUkol) {
+        btnOdstranUkol.setDisable(odstranitUkol);
     }
 
 }

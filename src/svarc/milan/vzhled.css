@@ -2,7 +2,6 @@
     -fx-base: #1e90ff;
     -fx-background: #1e90ff;
     barvaZvirazni: #ff4337;
-    
 }
 
 #modrePozadi{
@@ -12,6 +11,13 @@
 #preskrtnuty .text{
     -fx-strikethrough: true;
 }
+
+#nepreskrtnuty .tooltip .text,
+.tooltip{
+    -fx-strikethrough: false;
+    -fx-font-size: 14px;
+}
+
 
 /***** BUTTON *****/
 .button{
@@ -66,6 +72,10 @@
     -fx-font-weight	: bold;
 }
 
+.menu .label{
+     -fx-text-fill: #ffffff;
+}
+
 .menu-bar{
     -fx-background-color: #1e90ff;
     -fx-border-style: dotted;
@@ -91,9 +101,11 @@
     -fx-background-color: transparent;
     -fx-background-insets: 0;
 }
-
+.menu-item >.label {
+    -fx-text-fill: red;
+}
 .menu-item .label {
-    -fx-text-fill: #000000;
+    -fx-text-fill: #ffffff;
     -fx-background-color: #166cbf;
 }
 .menu-item .label:hover {
@@ -116,4 +128,26 @@
     -fx-padding: 0;
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+}
+
+/*
+ * css pro ID mujdialog
+*/
+
+/***** Label *****/
+#mujdialog .label{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+#mujdialog .text-field:hover,
+.text-field:focused,
+.text-area:hover,
+.text-area:focused{
+     -fx-border-color: linear-gradient(from 0% 0% to 100% 0%, black, barvaZvirazni 50%, black 100%, black);
+     -fx-border-style: solid inside;
+     -fx-border-radius: 5;
+     -fx-border-width: 2;
+     -fx-border-insets: -2;
+     -fx-background-insets: 0;
 }

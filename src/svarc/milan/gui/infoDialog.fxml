@@ -8,14 +8,23 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <BorderPane minHeight="300.0" minWidth="400.0" xmlns="http://javafx.com/javafx/10.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="svarc.milan.gui.InfoDialogController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="svarc.milan.gui.InfoDialogController" id="mujdialog">
     <top>
-        <HBox alignment="TOP_RIGHT">
+        <GridPane>
+            <rowConstraints>
+                <RowConstraints fillHeight="true"></RowConstraints>
+            </rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints fillWidth="true" percentWidth="80"></ColumnConstraints>
+                <ColumnConstraints halignment="RIGHT" percentWidth="20"></ColumnConstraints>
+            </columnConstraints>
             <BorderPane.margin>
                 <Insets right="10.0" top="10.0" left="10.0"/>
             </BorderPane.margin>
-            <Button onAction="#odstranUkol" text="Odstranit"></Button>
-        </HBox>
+            <Label fx:id="lblNadpis" text="" GridPane.rowIndex="0" GridPane.columnIndex="0"></Label>
+            <Button fx:id="btnOdstranUkol" onAction="#odstranUkol" text="Odstranit" GridPane.rowIndex="0" GridPane.columnIndex="1"></Button>
+
+        </GridPane>
     </top>
     <center>
         <HBox minHeight="100" minWidth="100" spacing="5">
@@ -35,9 +44,9 @@
                 <children>
                     <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Předmět:"></Label>
                     <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Poznámka:"></Label>
-                    <TextField fx:id="predmet" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                    <TextField fx:id="tfPredmet" GridPane.rowIndex="0" GridPane.columnIndex="1"
                                promptText="Zadejte předmět"></TextField>
-                    <TextArea fx:id="poznamka" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                    <TextArea fx:id="taPoznamka" GridPane.rowIndex="1" GridPane.columnIndex="1"
                               promptText="Zadejte bližší informace"></TextArea>
                     <ToggleButton fx:id="tbtnSplneno" GridPane.rowIndex="2" GridPane.columnIndex="1" onAction="#splneno"
                                   text="Splněno" maxWidth="Infinity"></ToggleButton>
@@ -50,7 +59,7 @@
             <BorderPane.margin>
                 <Insets right="10.0" left="10.0" bottom="5.0"/>
             </BorderPane.margin>
-            <Button onAction="#ulozUkol" text="Uložit" prefWidth="90"/>
+            <Button fx:id="btnUlozUkol" onAction="#ulozUkol" text="Uložit" prefWidth="90"/>
             <Button onAction="#closeStage" text="Zrušit" prefWidth="60"/>
         </HBox>
     </bottom>
