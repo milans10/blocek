@@ -8,6 +8,10 @@
     -fx-background-color:#166cbf;
 }
 
+#modrePozadi .label{
+    -fx-text-fill: #ffffff;
+}
+
 #preskrtnuty .text{
     -fx-strikethrough: true;
 }

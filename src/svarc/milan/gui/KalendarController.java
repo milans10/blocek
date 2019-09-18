@@ -61,11 +61,31 @@ public class KalendarController {
                 gridPane.setStyle("-fx-padding: 0;" +
                         "-fx-border-style: solid inside;" +
                         "-fx-border-radius: 5;" +
-                        "-fx-border-color: black;");
+                        "-fx-border-color: black;"
+                );
 
                 Label label = (Label) gridPane.getChildren().get(0);
-                label.setText(String.valueOf(den++));
-                label.setStyle("-fx-background-color: #166cbf;");
+                label.setText(String.valueOf(den));
+                // Označení (zvýraznění) aktuálního dne v kalendáři
+                if (den == dneska.getDayOfMonth() && dneska.getMonthValue() == LocalDate.now().getMonthValue() && dneska.getYear() == LocalDate.now().getYear()) {
+                    label.setStyle("-fx-background-color: #ff4337;" +
+                            "-fx-background-radius: 5 5 0 0;" +
+                            "-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 5, 0.0 , 0 , -2 );"
+                    );
+                    label.setOnMouseExited(mouseEvent -> label.setStyle("-fx-background-color: #ff4337;" +
+                            "-fx-background-radius: 5 5 0 0;" +
+                            "-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 5, 0.0 , 0 , -2 );"
+                    ));
+                } else {
+                    label.setStyle("-fx-background-color: #166cbf;" +
+                            "-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 5, 0.0 , 0 , -2 );"
+                    );
+                    label.setOnMouseExited(mouseEvent -> label.setStyle("-fx-background-color: #166cbf;" +
+                            "-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 5, 0.0 , 0 , -2 );"
+                    ));
+                }
+                den++;
+
                 label.setOnMouseEntered(mouseEvent -> label.setStyle("-fx-background-color: #ff4337;" +
                         "-fx-border-color: linear-gradient(from 0% 0% to 100% 0%, black, barvaZvirazni 50%, black 100%, black);" +
                         "-fx-border-style: solid inside;" +
@@ -73,8 +93,10 @@ public class KalendarController {
                         "-fx-border-width: 2;" +
                         "-fx-border-insets: -2;" +
                         "-fx-background-insets: 0;" +
+                        "-fx-text-fill: #000000;" +
+                        "-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 5, 0.0 , 0 , -2 );" +
                         ""));
-                label.setOnMouseExited(mouseEvent -> label.setStyle("-fx-background-color: #166cbf;"));
+
                 label.setTooltip(new Tooltip(">> Klikněte pro zadání úkolu pro den: " + label.getText() + "." + dneska.getMonthValue() + "." + dneska.getYear() + " <<"));
 
                 VBox vBox = new VBox();
@@ -84,13 +106,16 @@ public class KalendarController {
                 scrollPane.setPrefViewportWidth(100);
                 scrollPane.setPrefViewportHeight(200);
                 scrollPane.setContent(vBox);
-                scrollPane.setStyle("-fx-background-color: none;");
+                scrollPane.setStyle("-fx-background: #ffffff;" +
+                        "-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 5, 0.0 , -2 , -2 );"
+                );
 
                 vBox.getChildren().clear();
 
                 for (UkolLabel ukolLabel : databaze.getDataKalendare()) {
                     if (ukolLabel.getDatum().equals((label.getText() + "." + dneska.getMonthValue() + "." + dneska.getYear()))) {
                         ukolLabel.setStyle("-fx-background-color: lightgreen;" +
+                                "-fx-text-fill: #000000;" +
                                 "-fx-max-width: 500;");
                         if (ukolLabel.isSplneno()) {
                             ukolLabel.setId("preskrtnuty");
@@ -104,6 +129,7 @@ public class KalendarController {
                         });
                         ukolLabel.setOnMouseEntered(mouseEvent -> {
                             ukolLabel.setStyle("-fx-background-color: lightgreen;" +
+                                    "-fx-text-fill: #000000;" +
                                     "-fx-max-width: 500;" +
                                     "-fx-border-color: linear-gradient(from 0% 0% to 100% 0%, black, barvaZvirazni 50%, black 100%, black);" +
                                     "-fx-border-style: solid inside;" +
@@ -115,6 +141,7 @@ public class KalendarController {
 
                         ukolLabel.setOnMouseExited(mouseEvent -> {
                             ukolLabel.setStyle("-fx-background-color: lightgreen;" +
+                                    "-fx-text-fill: #000000;" +
                                     "-fx-max-width: 500;");
                         });
 
@@ -145,10 +172,15 @@ public class KalendarController {
                 });
 
                 ScrollPane scrollPane = (ScrollPane) gridPane.getChildren().get(1);
-                scrollPane.setStyle("-fx-background-color: none;");
+                scrollPane.setStyle("-fx-background-color: none;" +
+                        "-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.0) , 0, 0.0 , 0 , 0 );"
+                );
 
                 VBox vBox = (VBox) scrollPane.getContent();
-                if (vBox != null) vBox.getChildren().clear();
+                if (vBox != null) {
+                    vBox.getChildren().clear();
+                    vBox.setStyle("-fx-background-color: transparent;");
+                }
             }
 
         }
