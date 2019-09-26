@@ -42,7 +42,7 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <Label fx:id="mesicJmeno" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
+                        <Label id="nadpis" fx:id="mesicJmeno" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
                                maxWidth="1.7976931348623157E308" text="Leden">
                             <GridPane.margin>
                                 <Insets right="20.0"/>
@@ -51,8 +51,8 @@
                                 <Font name="System Bold" size="18.0"/>
                             </font>
                         </Label>
-                        <Label fx:id="rokJmeno" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                               text="2019" GridPane.columnIndex="1">
+                        <Label id="nadpis" fx:id="rokJmeno" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                               text="2019" alignment="CENTER_LEFT" GridPane.columnIndex="1">
                             <GridPane.margin>
                                 <Insets left="20.0"/>
                             </GridPane.margin>

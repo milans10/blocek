@@ -22,6 +22,14 @@
     -fx-font-size: 14px;
 }
 
+#nadpis{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 32px;
+    -fx-font-weight: bolder;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,1) , 2, 0.0 , -1 , -1 );
+
+}
+
 
 /***** BUTTON *****/
 .button{
